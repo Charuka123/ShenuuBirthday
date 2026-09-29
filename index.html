@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday Shenuu ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&family=Poppins:wght@300;400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* --- GLOBAL PREMIUM STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Poppins', 'Noto Sans Sinhala', sans-serif; background-color: #030005; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; user-select: none; }
+        
+        .view { display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow-y: auto; overflow-x: hidden; z-index: 10; }
+        .active-view { display: flex; animation: viewFadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes viewFadeIn { from { opacity: 0; transform: translateY(20px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+
+        h1 { font-size: 28px; margin-bottom: 15px; font-weight: 800; text-shadow: 0 5px 15px rgba(0,0,0,0.5); letter-spacing: 1px; }
+        p { font-size: 15px; color: #cbd5e1; margin-bottom: 25px; padding: 0 25px; line-height: 1.8; }
+        
+        .btn-premium { background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%); color: #fff; border: none; padding: 15px 40px; font-size: 16px; font-weight: 700; border-radius: 50px; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 25px rgba(255, 8, 68, 0.5); letter-spacing: 1px; }
+        .btn-premium:active { transform: scale(0.92); }
+
+        /* Magic Sparkle System */
+        .sparkle { position: absolute; pointer-events: none; width: 8px; height: 8px; background: #fff; border-radius: 50%; box-shadow: 0 0 15px #fff, 0 0 25px #ffb199; animation: sparkleAnim 0.8s ease-out forwards; z-index: 9999; }
+        @keyframes sparkleAnim { 0% { transform: scale(0) rotate(0deg); opacity: 1; } 100% { transform: scale(2) rotate(180deg) translate(calc(var(--tx) * 20px), calc(var(--ty) * 20px)); opacity: 0; } }
+
+        /* Touch Heart Trail */
+        .trail-heart { position: absolute; pointer-events: none; font-size: 20px; animation: floatHeartTrail 1s ease-out forwards; z-index: 9998; }
+        @keyframes floatHeartTrail { 0% { transform: translateY(0) scale(0.5); opacity: 1; } 100% { transform: translateY(-50px) scale(1.5); opacity: 0; } }
+
+        /* --- 0. TIME LOCK --- */
+        #view-timelock { background: radial-gradient(circle at center, #110515 0%, #000 100%); }
+        .lock-icon { font-size: 65px; margin-bottom: 25px; animation: floatImg 3s infinite ease-in-out; filter: drop-shadow(0 0 20px rgba(255,255,255,0.2)); }
+
+        /* --- 1. CANDLE VIEW --- */
+        #view-candle { background: radial-gradient(circle at center, #15050a 0%, #000 100%); }
+        .candle-container { position: relative; height: 280px; margin-bottom: 40px; }
+        .candle { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 180px; background: linear-gradient(to right, #f5f5f5, #ffffff, #e0e0e0); border-radius: 8px 8px 15px 15px; box-shadow: inset 0 -15px 20px rgba(0,0,0,0.2), 0 10px 25px rgba(0,0,0,0.6); }
+        .wick { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); width: 6px; height: 16px; background: #111; border-radius: 3px 3px 0 0; }
+        .flame { position: absolute; top: -85px; left: 50%; transform: translateX(-50%); width: 40px; height: 75px; background: #ffcc00; border-radius: 50% 50% 20% 20%; box-shadow: 0 0 50px 15px rgba(255, 204, 0, 0.8), 0 0 100px 30px rgba(255, 102, 0, 0.5); animation: flicker 0.12s infinite alternate; transform-origin: bottom center; transition: 0.5s; }
+        .flame.blown-out { width: 0; height: 0; opacity: 0; box-shadow: none; }
+        @keyframes flicker { 0% { transform: translateX(-50%) rotate(-2deg) scale(0.95); } 100% { transform: translateX(-50%) rotate(2deg) scale(1.05); } }
+
+        /* --- 2. PARTY GAMES (FEED CAKE) --- */
+        #view-party { background: linear-gradient(135deg, #1a0b12 0%, #000 100%); }
+        .party-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 30px; padding: 40px 20px; width: 90vw; max-width: 400px; backdrop-filter: blur(20px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .friends-container { display: flex; justify-content: space-around; margin: 40px 0; }
+        .friend { font-size: 50px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; filter: grayscale(100%) opacity(0.5); }
+        .friend.fed { filter: grayscale(0%) opacity(1); transform: scale(1.3) translateY(-10px); text-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .cake-slice { font-size: 70px; cursor: pointer; transition: 0.3s; margin-top: 10px; display: inline-block; animation: floatImg 3s infinite; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+        .cake-slice.selected { transform: scale(1.2) translateY(-15px); filter: drop-shadow(0 0 35px rgba(255, 8, 68, 0.9)); }
+        @keyframes floatImg { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        /* --- 3. THE MIND-BLOWING PUBLIC WISH UI --- */
+        #view-public { background: #030008; }
+        .bg-orbs { position: absolute; width: 100%; height: 100%; z-index: 1; overflow: hidden; pointer-events: none; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.6; animation: orbFloat 10s infinite alternate; }
+        .orb-1 { width: 300px; height: 300px; background: #ff0844; top: -100px; left: -100px; }
+        .orb-2 { width: 250px; height: 250px; background: #ffb199; bottom: -50px; right: -50px; animation-delay: -5s; }
+        .orb-3 { width: 200px; height: 200px; background: #9d4edd; top: 40%; left: 30%; animation-duration: 15s; }
+        @keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 50px) scale(1.2); } }
+
+        .glass-wish-card { position: relative; z-index: 2; background: rgba(20, 5, 15, 0.4); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 35px; padding: 45px 25px; width: 90vw; max-width: 400px; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+        .photo-wrapper { position: relative; width: 180px; height: 180px; margin: 0 auto 30px; border-radius: 50%; padding: 5px; background: linear-gradient(45deg, #ff0844, #ffb199, #9d4edd, #ff0844); background-size: 300% 300%; animation: neonBorder 4s linear infinite; box-shadow: 0 15px 35px rgba(255, 8, 68, 0.4); }
+        @keyframes neonBorder { 0% { background-position: 0% 0%; } 100% { background-position: 300% 0%; } }
+        .clear-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #000; }
+        
+        .wish-title { font-family: 'Poppins', sans-serif; font-size: 36px; font-weight: 800; background: linear-gradient(to right, #fff, #ffb199); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px; }
+        .secret-reveal-btn { margin-top: 35px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #ffb199; padding: 12px 30px; border-radius: 30px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); animation: floatImg 3s infinite ease-in-out; }
+        .secret-reveal-btn:active { background: rgba(255, 8, 68, 0.2); transform: scale(0.95); }
+
+        /* --- 4. TERMINAL & PIN --- */
+        #view-terminal { background: #000; align-items: flex-start; justify-content: flex-start; padding: 40px 25px; font-family: 'Share Tech Mono', monospace; color: #0f0; text-align: left; }
+        .terminal-text { font-size: 16px; line-height: 2.2; text-shadow: 0 0 8px #0f0; }
+
+        #view-pin { background: radial-gradient(circle at center, #11050a 0%, #000 100%); }
+        .pin-display { font-size: 45px; letter-spacing: 18px; margin-bottom: 30px; height: 60px; color: #ff0844; font-weight: 800; text-shadow: 0 0 25px rgba(255, 8, 68, 0.6); }
+        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 300px; margin: 0 auto; }
+        .key { width: 75px; height: 75px; border-radius: 50%; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: center; align-items: center; font-size: 28px; cursor: pointer; transition: 0.2s; color: #fff; }
+        .key:active { background: linear-gradient(135deg, #ff0844, #ffb199); transform: scale(0.9); border: none; box-shadow: 0 0 25px #ff0844; }
+
+        /* --- 5. FINGERPRINT SCANNER --- */
+        #view-fingerprint { background: #050505; }
+        .fingerprint-icon { font-size: 90px; filter: grayscale(100%) brightness(40%); transition: all 1.5s ease; cursor: pointer; position: relative; display: inline-block; }
+        .fingerprint-icon.scanning { filter: grayscale(0%) drop-shadow(0 0 40px #ff4d6d); transform: scale(1.1); }
+        .scan-line { width: 120px; height: 4px; background: #ff4d6d; box-shadow: 0 0 15px #ff4d6d; position: absolute; top: 0; left: 50%; transform: translateX(-50%); opacity: 0; pointer-events: none; border-radius: 5px; }
+        @keyframes scanAnim { 0% { top: 0; opacity: 1; } 50% { top: 100%; opacity: 1; } 100% { top: 0; opacity: 1; } }
+        .fp-msg { color:#ff4d6d; margin-top:40px; font-weight:bold; font-size: 16px; letter-spacing: 1px; min-height: 25px; transition: 0.3s; }
+
+        /* --- 6. SECRETS & REVEAL --- */
+        #view-secret { background: #05000a; justify-content: flex-start; padding-top: 40px; padding-bottom: 60px; }
+        .game-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 30px; padding: 35px 20px; margin: 10px auto; width: 90vw; max-width: 400px; display: none; backdrop-filter: blur(20px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .game-card.active-game { display: block; animation: viewFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+        .heart-glass { width: 140px; height: 140px; border: 2px solid rgba(255,255,255,0.1); border-radius: 50%; margin: 30px auto; position: relative; overflow: hidden; background: rgba(0,0,0,0.6); cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 50px; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+        .fill-level { position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; background: linear-gradient(0deg, #ff0844, #ffb199); transition: height 0.3s; z-index: 1; }
+        .heart-glass span { position: relative; z-index: 2; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8)); }
+        
+        .memory-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 25px; perspective: 800px; }
+        .mem-card { height: 95px; background: rgba(255,255,255,0.05); border-radius: 15px; display: flex; justify-content: center; align-items: center; font-size: 35px; cursor: pointer; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
+        .mem-card.flipped { background: rgba(255, 8, 68, 0.15); border: 1px solid #ff0844; transform: rotateY(180deg); box-shadow: 0 0 25px rgba(255, 8, 68, 0.3); }
+        .mem-card span { display: none; transform: rotateY(180deg); }
+        .mem-card.flipped span { display: block; }
+
+        /* Decrypting Progress */
+        .decrypt-container { width: 100%; margin-top: 30px; }
+        .progress-bar-bg { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 10px; }
+        .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #ff0844, #ffb199); transition: width 0.1s linear; }
+        
+        /* Final Reveal */
+        #final-message { border: none; background: transparent; box-shadow: none; padding: 10px; max-width: 440px; }
+        .final-couple-photo { width: 100%; border-radius: 20px; border: 2px solid rgba(255, 177, 153, 0.3); box-shadow: 0 15px 45px rgba(255, 8, 68, 0.4); margin-bottom: 35px; opacity: 0; animation: floatAndGlow 4s infinite, imgFadeIn 2s ease forwards 0.5s; object-fit: cover; }
+        @keyframes floatAndGlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); box-shadow: 0 25px 60px rgba(255, 177, 153, 0.6); } }
+        @keyframes imgFadeIn { to { opacity: 1; } }
+        
+        .fade-paragraph { font-size: 15.5px; line-height: 2.2; color: #e2e8f0; margin-bottom: 30px; opacity: 0; transform: translateY(20px); font-weight: 300; text-align: left; }
+        .fade-paragraph.visible { animation: viewFadeIn 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .highlight { color: #ffb199; font-weight: 700; text-shadow: 0 0 12px rgba(255,177,153,0.5); font-size: 17px; letter-spacing: 0.5px; }
+
+    </style>
+</head>
+<body>
+
+    <!-- AUDIO FILES -->
+    <audio id="clap-audio" src="https://assets.mixkit.co/active_storage/sfx/437/437-preview.mp3"></audio>
+    <!-- Public/Party Song -->
+    <audio id="bg-music" loop><source src="song.mp3" type="audio/mpeg"></audio>
+    <!-- Secret World Tone (අලුතින් එකතු කළ ටෝන් එක) -->
+    <audio id="secret-music" loop><source src="secret-tone.mp3" type="audio/mpeg"></audio>
+
+    <!-- 0. TIME LOCK -->
+    <div id="view-timelock" class="view active-view">
+        <div class="lock-icon">🔒</div>
+        <h1 id="secret-override">තවම කල් වැඩියි සුදූ!</h1>
+        <p style="color:#aaa;">ඔක්තෝබර් 11 වෙනකන් පොඩ්ඩක් ඉවසන්නකෝ... 🥺❤️</p>
+    </div>
+
+    <!-- 1. MIC PERMISSION -->
+    <div id="view-mic" class="view">
+        <h1 style="font-size:45px; text-shadow: 0 0 30px #ff0844; margin-bottom: 20px;">✨</h1>
+        <h1>මැජික් එකට ලෑස්තිද?</h1>
+        <p>ඉදිරියට යන්න මයික් එකට අවසර දෙන්න.</p>
+        <button class="btn-premium" onclick="requestMic()">අවසර දෙනවා</button>
+    </div>
+
+    <!-- 2. CANDLE VIEW -->
+    <div id="view-candle" class="view">
+        <h1 id="instruction" style="line-height: 1.6; font-size: 24px; text-shadow: 0 0 20px rgba(255,255,255,0.5);">ඇස් දෙක පියාගෙන<br>ප්‍රාර්ථනාවක් කරලා පිඹින්න... 🌬️</h1>
+        <div class="candle-container">
+            <div class="flame" id="flame"></div>
+            <div class="candle"><div class="wick"></div></div>
+        </div>
+    </div>
+
+    <!-- 3. FEED CAKE GAME -->
+    <div id="view-party" class="view">
+        <div class="party-card">
+            <h3 style="color:#ffb199; font-size: 22px; margin-bottom: 10px;">පාටිය පටන් ගමු! 🎉</h3>
+            <p style="font-size: 14px; color:#aaa; margin-bottom: 30px;">මුලින්ම කේක් කෑල්ල ඔබලා, ඊටපස්සේ යාලුවන්ට ටැප් කරලා කේක් කවන්න.</p>
+            
+            <div class="friends-container">
+                <div class="friend" id="friend1" onclick="feedFriend(1)">👨</div>
+                <div class="friend" id="friend2" onclick="feedFriend(2)">👩</div>
+                <div class="friend" id="friend3" onclick="feedFriend(3)">👦</div>
+            </div>
+            
+            <div class="cake-slice" id="cake-btn" onclick="selectCake()">🍰</div>
+        </div>
+    </div>
+
+    <!-- 4. MIND-BLOWING PUBLIC WISH UI -->
+    <div id="view-public" class="view">
+        <div class="bg-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+        
+        <div class="glass-wish-card">
+            <div class="photo-wrapper">
+                <img src="https://res.cloudinary.com/dokzdfdwe/image/upload/v1790613977/photo1_ai5kpz.jpg" class="clear-img">
+            </div>
+            
+            <h1 class="wish-title">Happy Birthday!</h1>
+            <p style="color: #e2e8f0; font-weight: 400; font-size: 16px; letter-spacing: 0.5px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+                ඔයාට සුබම සුබ උපන්දිනයක් වේවා! මේ අවුරුද්ද ගොඩක් සතුටින් පිරුණු ලස්සනම අවුරුද්දක් වෙන්න කියලා ප්‍රාර්ථනා කරනවා. හැමදාම සතුටින් ඉන්න Shenuu! 🎉
+            </p>
+            
+            <button class="secret-reveal-btn" onclick="startTerminal()">🎁 Tap for a Secret</button>
+        </div>
+    </div>
+
+    <!-- 5. TERMINAL -->
+    <div id="view-terminal" class="view">
+        <div class="terminal-text" id="term-text"></div>
+    </div>
+
+    <!-- 6. PIN PAD -->
+    <div id="view-pin" class="view">
+        <p style="color: #64748b; font-weight:800; letter-spacing: 4px; font-size: 13px; margin-bottom: 10px;">SECURE VAULT ACCESS</p>
+        <div class="pin-display" id="pin-display">----</div>
+        <p style="color: #ffb199; font-size: 14px; margin-bottom: 40px;">(Hint: Check Mr Charu Inbox... 🤫)</p>
+        <div class="keypad">
+            <div class="key" onclick="enterPin(1)">1</div><div class="key" onclick="enterPin(2)">2</div><div class="key" onclick="enterPin(3)">3</div>
+            <div class="key" onclick="enterPin(4)">4</div><div class="key" onclick="enterPin(5)">5</div><div class="key" onclick="enterPin(6)">6</div>
+            <div class="key" onclick="enterPin(7)">7</div><div class="key" onclick="enterPin(8)">8</div><div class="key" onclick="enterPin(9)">9</div>
+            <div class="key" onclick="clearPin()">C</div><div class="key" onclick="enterPin(0)">0</div>
+            <div class="key" onclick="checkPin()" style="background:linear-gradient(135deg, #ff0844, #ffb199); box-shadow:0 0 25px rgba(255,8,68,0.6); border:none;">✓</div>
+        </div>
+    </div>
+
+    <!-- 7. BIOMETRIC FINGERPRINT -->
+    <div id="view-fingerprint" class="view">
+        <h2 style="color:#fff; margin-bottom: 10px; font-weight: 800;">Identity Verification</h2>
+        <p style="color:#888; font-size:14px; margin-bottom: 50px;">Please hold your finger to verify.</p>
+        
+        <div style="position:relative; display:inline-block;">
+            <div class="fingerprint-icon" id="fp-sensor" ontouchstart="startScan(event)" ontouchend="stopScan()" onmousedown="startScan(event)" onmouseup="stopScan()" onmouseleave="stopScan()">☝️</div>
+            <div class="scan-line" id="scan-line"></div>
+        </div>
+        
+        <div class="fp-msg" id="fp-msg"></div>
+    </div>
+
+    <!-- 8. SECRET ARCADE & REVEAL -->
+    <div id="view-secret" class="view" id="secret-world">
+        <h2 style="color: #ffb199; margin-bottom: 10px; font-weight: 800; font-size: 28px; z-index: 20;">✨ Our Secret World ✨</h2>
+        
+        <!-- Game 1: Love Meter -->
+        <div class="game-card active-game" id="game-1" style="z-index: 20;">
+            <h3 style="color:#fff; margin-bottom: 10px;">💖 ආදරෙන් පුරවමු</h3>
+            <p style="font-size: 13px; color:#aaa;">හදවත පිරෙන්න වේගෙන් ටැප් කරන්න</p>
+            <div class="heart-glass" onclick="tapHeart()">
+                <div class="fill-level" id="heart-fill"></div>
+                <span>❤️</span>
+            </div>
+            <p style="margin-top:20px; color:#ffb199; font-weight:bold; font-size: 16px;">Love Level: <span id="tap-score">0</span>%</p>
+        </div>
+
+        <!-- Game 2: Memory Match -->
+        <div class="game-card" id="game-2" style="z-index: 20;">
+            <h3 style="color:#fff; margin-bottom: 10px;">🧩 මතක පරීක්ෂණය</h3>
+            <p style="font-size: 13px; color:#aaa;">සමාන කාඩ්පත් 2 බැගින් එකතු කරන්න</p>
+            <div class="memory-grid">
+                <div class="mem-card" onclick="flipCard(this, '🌸')"><span>🌸</span></div>
+                <div class="mem-card" onclick="flipCard(this, '💖')"><span>💖</span></div>
+                <div class="mem-card" onclick="flipCard(this, '💖')"><span>💖</span></div>
+                <div class="mem-card" onclick="flipCard(this, '🌸')"><span>🌸</span></div>
+            </div>
+        </div>
+
+        <!-- Progress Bar before final text -->
+        <div class="game-card" id="game-decrypt" style="z-index: 20;">
+            <h3 style="color:#fff; font-family: 'Share Tech Mono';">Decrypting True Feelings...</h3>
+            <div class="decrypt-container">
+                <div class="progress-bar-bg">
+                    <div class="progress-fill" id="prog-fill"></div>
+                </div>
+                <p style="color:#ffb199; margin-top:10px; font-weight:bold;"><span id="prog-text">0</span>%</p>
+            </div>
+        </div>
+
+        <!-- THE ULTIMATE REVEAL -->
+        <div class="game-card" id="final-message" style="z-index: 20; border:none; background:transparent; box-shadow:none;">
+            <img src="https://res.cloudinary.com/dokzdfdwe/image/upload/v1790616019/WhatsApp_Image_2026-09-28_at_22.34.02_e6frga.jpg" class="final-couple-photo">
+            
+            <div style="text-align: left; padding: 0 10px;">
+                <p class="fade-paragraph">සුදූ... අපි දෙන්නා කවදාවත් වචනවලින් 'ආදරෙයි' කියලා නැති වෙන්න පුළුවන්. ඒත් ඒ වචන තුනට වඩා ගොඩක් ගැඹුරු, කවදාවත් නොබිඳෙන බැඳීමක් මට ඔයා එක්ක තියෙනවා කියලා ඔයාගේ ඇස් දිහා බලද්දි මට තේරෙනවා. මම දන්නවා ඔයාටත් ඒක එහෙමම දැනෙනවා කියලා.</p>
+                <p class="fade-paragraph">සමහරුන්ට වයස කියන්නේ ලොකු ප්‍රශ්නයක් වෙන්න පුළුවන්. මම ඔයාට වඩා අවුරුදු දෙකක් බාල වුණත්, ඔයා මාව තේරුම් ගන්න විදිහ, මගේ අඩුපාඩු හදාගෙන මට ඉස්සරහට යන්න දෙන හයිය දැක්කම, මට දැනෙන්නේ මං මේ ලෝකේ ඉන්න වාසනාවන්තම කෙනා කියලා. ඔයාගේ පරිණතකමයි, මට දක්වන සෙනෙහසයි ඉස්සරහා අර අවුරුදු දෙකේ පරතරය නිකන්ම නිකන් ඉලක්කමක් විතරයි සුදූ.</p>
+                <p class="fade-paragraph">ඔයාගේ එක හිනාවකින් මගේ මුළු දවසම ලස්සන වෙනවා. මම මේ ගන්න හැම මහන්සියක්ම, මගේ හැම හීනයක්ම ගැහෙන්නේ <span class="highlight">අපේ</span> ලස්සන අනාගතයක් වෙනුවෙන්. ඔයා මට නිකන්ම කෙනෙක් නෙවෙයි, මගේ ලෝකෙම ඔයා. Love You So Much Suduuu...</p>
+                <p class="fade-paragraph" style="text-align: center; margin-top: 45px; font-size: 19px; color: #fff; font-weight: 600;">
+                    හැමදාමත් මේ වගේම මගේ ළඟින්ම ඉන්න.<br>මගේ මුළු ලෝකෙටම...<br>
+                    <span style="font-size: 26px; color: #ff0844; font-weight: 800; display: block; margin-top: 15px; text-shadow: 0 0 20px rgba(255,8,68,0.7);">සුබම සුබ උපන්දිනයක්! ❤️♾️</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // MAGIC SPARKLE EFFECT
+        document.addEventListener('click', function(e) {
+            let s = document.createElement('div'); s.className = 'sparkle';
+            s.style.left = e.clientX + 'px'; s.style.top = e.clientY + 'px';
+            s.style.setProperty('--tx', (Math.random() - 0.5)); s.style.setProperty('--ty', (Math.random() - 0.5));
+            document.body.appendChild(s); setTimeout(() => s.remove(), 800);
+        });
+
+        // TOUCH HEART TRAIL FOR SECRET WORLD
+        document.getElementById('view-secret').addEventListener('pointermove', function(e) {
+            if(Math.random() > 0.8) {
+                let h = document.createElement('div');
+                h.className = 'trail-heart';
+                h.innerText = '❤️';
+                h.style.left = e.clientX + 'px';
+                h.style.top = e.clientY + 'px';
+                document.getElementById('view-secret').appendChild(h);
+                setTimeout(() => h.remove(), 1000);
+            }
+        });
+
+        function switchView(hideId, showId) {
+            document.getElementById(hideId).classList.remove('active-view');
+            document.getElementById(showId).classList.add('active-view');
+        }
+
+        // --- 0. TIME LOCK ---
+        let overrideTaps = 0;
+        document.getElementById('secret-override').addEventListener('click', () => {
+            overrideTaps++;
+            if(overrideTaps >= 5) switchView('view-timelock', 'view-mic');
+        });
+
+        window.onload = function() {
+            const birthdayDate = new Date('2026-10-11T00:00:00').getTime();
+            if(new Date().getTime() >= birthdayDate) switchView('view-timelock', 'view-mic');
+        };
+
+        // --- 1. MIC ---
+        let audioContext, analyser, microphone;
+        let clapAudio = document.getElementById('clap-audio');
+        let bgMusic = document.getElementById('bg-music');
+        let secretMusic = document.getElementById('secret-music'); // අලුත් ටෝන් එක
+
+        async function requestMic() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                microphone = audioContext.createMediaStreamSource(stream);
+                microphone.connect(analyser); analyser.fftSize = 256;
+                switchView('view-mic', 'view-candle');
+                checkBlow();
+            } catch (err) { alert("මයික් එකට අවසර දුන්නෙ නැත්නම් ඉදිරියට යන්න බෑ!"); }
+        }
+
+        // --- 2. CANDLE ---
+        function checkBlow() {
+            const dataArray = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(dataArray);
+            let sum = 0;
+            for(let i = 0; i < analyser.frequencyBinCount; i++) sum += dataArray[i];
+            if ((sum / analyser.frequencyBinCount) > 85) { blowOut(); return; }
+            requestAnimationFrame(checkBlow);
+        }
+        function blowOut() {
+            document.getElementById('flame').classList.add('blown-out');
+            document.getElementById('instruction').innerText = "පාටිය පටන් ගන්නයි යන්නේ... 🎉";
+            clapAudio.play().catch(e=>{});
+            setTimeout(() => {
+                if(audioContext) audioContext.close();
+                switchView('view-candle', 'view-party'); 
+                bgMusic.play().catch(e=>{});
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            }, 2500);
+        }
+
+        // --- 3. CAKE FEEDING ---
+        let cakeSelected = false, friendsFed = 0;
+        function selectCake() {
+            cakeSelected = true;
+            document.getElementById('cake-btn').classList.add('selected');
+        }
+        function feedFriend(id) {
+            if(cakeSelected) {
+                let friend = document.getElementById('friend' + id);
+                if(!friend.classList.contains('fed')) {
+                    friend.classList.add('fed');
+                    friend.innerText = ['😋','😍','🥳'][id-1]; 
+                    confetti({ particleCount: 25, spread: 50, origin: { x: (id*0.25), y: 0.6 } });
+                    cakeSelected = false;
+                    document.getElementById('cake-btn').classList.remove('selected');
+                    friendsFed++;
+                    if(friendsFed === 3) {
+                        setTimeout(() => switchView('view-party', 'view-public'), 1500);
+                    }
+                }
+            } else { alert("මුලින්ම කේක් කෑල්ල ඔබන්න!"); }
+        }
+
+        // --- 4. TERMINAL & PIN ---
+        const termLines = ["> ACCESSING SECURE PROTOCOLS...", "> IDENTIFYING USER: Shenuu...", "> STATUS: MY WORLD ❤️...", "> UNLOCKING VAULT..."];
+        function startTerminal() {
+            switchView('view-public', 'view-terminal');
+            let term = document.getElementById('term-text'); term.innerHTML = "";
+            let idx = 0;
+            function typeL() {
+                if(idx < termLines.length) { term.innerHTML += termLines[idx] + "<br><br>"; idx++; setTimeout(typeL, 800); }
+                else setTimeout(() => switchView('view-terminal', 'view-pin'), 1000);
+            }
+            typeL();
+        }
+
+        let currentPin = "";
+        function enterPin(n) { if(currentPin.length<4){ currentPin+=n; document.getElementById('pin-display').innerText = currentPin.padEnd(4, '-'); } }
+        function clearPin() { currentPin=""; document.getElementById('pin-display').innerText="----"; }
+        function checkPin() {
+            if(currentPin==="0925") switchView('view-pin', 'view-fingerprint');
+            else { document.getElementById('pin-display').innerText="ERR"; setTimeout(clearPin, 800); }
+        }
+
+        // --- 5. FINGERPRINT SCANNER ---
+        let scanTimer;
+        function startScan(e) {
+            e.preventDefault();
+            document.getElementById('fp-sensor').classList.add('scanning');
+            document.getElementById('scan-line').style.animation = "scanAnim 1s infinite linear";
+            document.getElementById('fp-msg').innerText = "Scanning Biometrics...";
+            document.getElementById('fp-msg').style.color = "#ff4d6d";
+            
+            scanTimer = setTimeout(() => {
+                document.getElementById('fp-msg').innerText = "ACCESS GRANTED!";
+                document.getElementById('fp-msg').style.color = "#0f0";
+                
+                // මෙතනදී පරණ සින්දුව නවතා, රහස් ලෝකයේ ටෝන් එක ප්ලේ කරයි!
+                bgMusic.pause();
+                secretMusic.play().catch(e=>{});
+
+                setTimeout(() => {
+                    switchView('view-fingerprint', 'view-secret');
+                }, 1000);
+            }, 3000); 
+        }
+        function stopScan() {
+            clearTimeout(scanTimer);
+            document.getElementById('fp-sensor').classList.remove('scanning');
+            document.getElementById('scan-line').style.animation = "none";
+            if(document.getElementById('fp-msg').innerText !== "ACCESS GRANTED!") {
+                document.getElementById('fp-msg').innerText = "Scan Failed. Keep Holding.";
+                setTimeout(() => { if(document.getElementById('fp-msg').innerText.includes("Failed")) document.getElementById('fp-msg').innerText=""; }, 1500);
+            }
+        }
+
+        // --- 6. SECRETS & REVEAL ---
+        let tapCount = 0;
+        function tapHeart() {
+            if(tapCount >= 100) return;
+            tapCount += 10;
+            document.getElementById('heart-fill').style.height = tapCount + '%';
+            document.getElementById('tap-score').innerText = tapCount;
+            if(tapCount >= 100) {
+                confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 }, colors: ['#ff0844'] });
+                setTimeout(() => { 
+                    document.getElementById('game-1').classList.remove('active-game');
+                    document.getElementById('game-2').classList.add('active-game'); 
+                }, 1200);
+            }
+        }
+
+        let fCard=null, matches=0, locked=false;
+        function flipCard(card) {
+            if(locked || card===fCard || card.classList.contains('flipped')) return;
+            card.classList.add('flipped');
+            if(!fCard) { fCard=card; return; }
+            if(fCard.innerHTML === card.innerHTML) {
+                matches++; fCard=null; confetti({ particleCount: 20 });
+                if(matches===2) setTimeout(startDecrypt, 1200);
+            } else {
+                locked=true; setTimeout(()=>{ fCard.classList.remove('flipped'); card.classList.remove('flipped'); fCard=null; locked=false; }, 800);
+            }
+        }
+
+        function startDecrypt() {
+            document.getElementById('game-2').classList.remove('active-game');
+            document.getElementById('game-decrypt').classList.add('active-game');
+            
+            let prog = 0;
+            let interval = setInterval(() => {
+                prog += Math.floor(Math.random() * 15) + 5;
+                if(prog >= 100) prog = 100;
+                document.getElementById('prog-fill').style.width = prog + '%';
+                document.getElementById('prog-text').innerText = prog;
+                
+                if(prog === 100) {
+                    clearInterval(interval);
+                    setTimeout(triggerReveal, 1000);
+                }
+            }, 300);
+        }
+
+        function triggerReveal() {
+            document.getElementById('game-decrypt').classList.remove('active-game');
+            document.getElementById('final-message').classList.add('active-game');
+            
+            var end = Date.now() + 6000;
+            (function f() {
+                confetti({ particleCount: 6, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff0844', '#fff', '#ffb199'] });
+                confetti({ particleCount: 6, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff0844', '#fff', '#ffb199'] });
+                if (Date.now() < end) requestAnimationFrame(f);
+            }());
+            const paras = document.querySelectorAll('.fade-paragraph');
+            let d = 1000;
+            paras.forEach(p => { setTimeout(() => p.classList.add('visible'), d); d+=4500; });
+        }
+    </script>
+</body>
+</html>
